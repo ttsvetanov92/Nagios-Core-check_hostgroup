@@ -106,6 +106,20 @@ define host {
     contact_groups       admins
     use                  generic-host
 }
+....
+....
+define host{
+    host_name            clientN
+.....
+.....
+}
+# A hostgroups for
+
+define hostgroup{
+        hostgroup_name                  0-Hostgroups             ; The name of the hostgroups
+        alias                           Hostgroup checker;
+        members                         client1, client2 ... clientN
+        }
 ```
 
 
