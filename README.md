@@ -29,7 +29,8 @@ The plugin is easy to integrate into an existing Nagios Core setup.
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y curl jq```
+sudo apt-get install -y curl jq
+```
 
 
 ./check_offline_hosts <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
