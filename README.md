@@ -108,7 +108,7 @@ define host {
 }
 ....
 ....
-define host{
+define host {
     host_name            clientN
 .....
 .....
@@ -116,7 +116,7 @@ define host{
 # A hostgroups for
 
 define hostgroup{
-        hostgroup_name                  0-Hostgroups             ; The name of the hostgroups
+        hostgroup_name                  0-Hostgroups             ; The name of the new hostgroup
         alias                           Hostgroup checker;
         members                         client1, client2 ... clientN
         }
