@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# Nagios plugin (bash script) for checking how many hosts in a given hostgroup are DOWN.
+# Returns Nagios status (OK=0, WARNING=1, CRITICAL=2) based on defined thresholds in %.
+#
+# Usage:
+#   ./check_hostgroup.sh <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [<USER>:<PASS>] [<NAGIOS_URL>]
+#
+# Example:
+#   ./check_hostgroup.sh MyHostGroup 20 30 nagiosadmin:mypassword "http://127.0.0.1/nagios"
+#
+#  - HOSTGROUP_NAME:    The name of the hostgroup to check (mandatory parameter)
+#  - WARNING_%:         Warning threshold in percentage
+#  - CRITICAL_%:        Critical threshold in percentage
+#  - USER:PASS:         Credentials for Basic auth (optional)
+#  - NAGIOS_URL:        Base URL of the Nagios installation (optional)
+#
+
+# ----- 0) Dependency check (jq, curl) -----
+if ! command -v curl >/dev/null 2>&1; then
+  echo "UNKNOWN: 'curl' command not found. Please install 'curl'."
+  exit 3
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "UNKNOWN: 'jq' command not found. Please install 'jq'."
+  exit 3
+fi
+
+# ----- 1) Reading parameters -----
+HOSTGROUP="$1"
+WARN="$2"
+CRIT="$3"
+AUTH="$4"
+BASE_URL="$5"
+
+# If mandatory parameters are missing, print usage
+if [ -z "$HOSTGROUP" ] || [ -z "$WARN" ] || [ -z "$CRIT" ]; then
+  echo "Usage: $0 <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [<USER>:<PASS>] [<NAGIOS_URL>]"
+  exit 3  # 3 = UNKNOWN
+fi
+
+# If URL is not provided, set a default value
+if [ -z "$BASE_URL" ]; then
+  BASE_URL="http://127.0.0.1/nagios"
+fi
+
+# If AUTH is not provided, leave it empty (no Basic auth)
+if [ -z "$AUTH" ]; then
+  CURL_AUTH_ARGS=()
+else
+  CURL_AUTH_ARGS=(-u "$AUTH")
+fi
+
+# ----- 2) Fetching status from Nagios JSON API -----
+API_URL="${BASE_URL}/cgi-bin/statusjson.cgi?query=hostlist&hostgroup=${HOSTGROUP}"
+
+JSON_DATA="$(curl -s "${CURL_AUTH_ARGS[@]}" "$API_URL")"
+
+# Check if data is received
+if [ -z "$JSON_DATA" ]; then
+  echo "UNKNOWN: No data received from $API_URL"
+  exit 3
+fi
+
+# ----- 3) Counting total hosts and those that are DOWN -----
+TOTAL="$(echo "$JSON_DATA" | jq '.data.hostlist | length')"
+
+# If the hostgroup does not exist or is empty, TOTAL will be null or 0
+if [ "$TOTAL" == "null" ] || [ "$TOTAL" == "0" ]; then
+  echo "UNKNOWN: Hostgroup '$HOSTGROUP' does not exist or contains no hosts."
+  exit 3
+fi
+
+# Count how many hosts have a status of 4 (per your logic: DOWN)
+DOWN="$(echo "$JSON_DATA" | \
+  jq '[.data.hostlist
+       | to_entries[]       
+       | select(.value == 4)
+      ] | length
+     '
+)"
+
+# Handle cases where DOWN is empty or null
+if [ -z "$DOWN" ] || [ "$DOWN" == "null" ]; then
+  echo "UNKNOWN: Unable to determine how many hosts are DOWN (missing jq or invalid JSON?)."
+  exit 3
+fi
+
+# ----- 4) Calculate the percentage of DOWN hosts -----
+# To avoid "division by 0," we ensured above that $TOTAL != 0
+DOWN_PERCENT=$(( 100 * DOWN / TOTAL ))
+
+# ----- 5) Compare against Warning/Critical thresholds -----
+# Instead of standard "OK/WARNING/CRITICAL," you use "OK/BAD," but keep exit codes:
+if [ "$DOWN_PERCENT" -ge "$CRIT" ]; then
+  echo "BAD: $DOWN / $TOTAL hosts are DOWN (${DOWN_PERCENT}%) in hostgroup '$HOSTGROUP'"
+  exit 2
+elif [ "$DOWN_PERCENT" -ge "$WARN" ]; then
+  echo "BAD: $DOWN / $TOTAL hosts are DOWN (${DOWN_PERCENT}%) in hostgroup '$HOSTGROUP'"
+  exit 1
+else
+  echo "OK: All $TOTAL hosts are operational (${DOWN_PERCENT}% DOWN) in hostgroup '$HOSTGROUP'"
+  exit 0
+fi
