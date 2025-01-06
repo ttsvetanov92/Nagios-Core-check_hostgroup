@@ -100,6 +100,6 @@ elif [ "$DOWN_PERCENT" -ge "$WARN" ]; then
   echo "BAD: $DOWN / $TOTAL hosts are DOWN (${DOWN_PERCENT}%) in hostgroup '$HOSTGROUP'"
   exit 1
 else
-  echo "OK: All $TOTAL hosts are operational (${DOWN_PERCENT}% DOWN) in hostgroup '$HOSTGROUP'"
+  echo "OK: From $TOTAL hosts $DOWN are offline (${DOWN_PERCENT}% DOWN) in hostgroup '$HOSTGROUP'"
   exit 0
 fi
