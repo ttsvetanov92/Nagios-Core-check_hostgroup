@@ -32,31 +32,32 @@ sudo apt-get update
 sudo apt-get install -y curl jq
 ```
 
-
+```bash
 ./check_offline_hosts <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
-
+```
 ## Example Usage
 
 ```bash
 ./check_offline_hosts <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
+```
 
 ```bash
 ./check_offline_hosts MyHostGroup 20 30 nagiosadmin:password "http://127.0.0.1/nagios"
-
+```
 ## Result
 
 ### Critical (30% or more hosts DOWN):
 ```bash
 BAD: 3 / 10 hosts are DOWN (30%) in hostgroup 'MyHostGroup'
-
+```
 ### Warning (20%-29% of hosts DOWN):
 ```bash
 BAD: 2 / 10 hosts are DOWN (20%) in hostgroup 'MyHostGroup'
-
+```
 ### OK (fewer than 20% of hosts DOWN):
 ```bash
 OK: All 10 hosts are operational (10% DOWN) in hostgroup 'MyHostGroup'
-
+```
 ## How it works 
 
 The plugin retrieves hostgroup information using Nagios’ statusjson.cgi API and:
@@ -74,7 +75,7 @@ define command {
     command_name    check_hostgroup
     command_line    /path/to/check_offline_hosts $ARG1$ $ARG2$ $ARG3$ nagiosadmin:password http://127.0.0.1/nagios
 }
-
+```
 ### Create a "Virtual Host" for Each Hostgroup:
 
 ```cfg
@@ -105,6 +106,6 @@ define host {
     contact_groups       admins
     use                  generic-host
 }
-
+```
 
 
