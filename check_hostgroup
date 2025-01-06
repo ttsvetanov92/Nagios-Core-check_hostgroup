@@ -72,7 +72,7 @@ if [ "$TOTAL" == "null" ] || [ "$TOTAL" == "0" ]; then
   exit 3
 fi
 
-# Count how many hosts have a status of 4 (per your logic: DOWN)
+# Count how many hosts have a status of 4 (DOWN)
 DOWN="$(echo "$JSON_DATA" | \
   jq '[.data.hostlist
        | to_entries[]       
