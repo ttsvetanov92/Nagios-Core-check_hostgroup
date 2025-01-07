@@ -126,7 +126,7 @@ define host {
 # A hostgroups for
 
 define hostgroup{
-        hostgroup_name                  0-Hostgroups             ; The name of the new hostgroup
+        hostgroup_name                  0-Hostgroups             ; The name of the Virtual hostgroup
         alias                           Hostgroup checker;
         members                         client1, client2 ... clientN
         }
