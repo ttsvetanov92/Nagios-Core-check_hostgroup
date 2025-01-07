@@ -159,5 +159,4 @@ In Nagios, host checks are limited to three default statuses:
 
 Unlike service checks, which can return OK, WARNING, CRITICAL, and UNKNOWN, host checks do not support the WARNING status by default.
 
-Keep in mind that if you configure a command as a host check, any state intended to represent WARNING will actually be reported as OK.
-
+Keep in mind that if you configure a command as a host check, any state intended to represent WARNING will actually be reported as OK, but you will still receive a notification about the status change.
