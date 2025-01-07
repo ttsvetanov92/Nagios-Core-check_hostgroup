@@ -68,6 +68,16 @@ The plugin retrieves hostgroup information using Nagios’ statusjson.cgi API an
 
 ## Nagios Integration
 
+### Installatiton
+Download the shell scrypt and add it to libexec nagios folder
+
+```bash
+git clone https://github.com/ttsvetanov92/Nagios-Core-check_hostgroup/
+cd Nagios-Core-check_hostgroup
+chmod +x check_hostgroup
+sudo mv check_hostgroup /usr/local/nagios/libexec
+```
+
 ### Add the Command to commands.cfg:
 
 ```cfg
