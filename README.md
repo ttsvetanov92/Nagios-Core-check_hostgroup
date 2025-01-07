@@ -2,11 +2,11 @@
 
 ## Overview
 
-This Nagios plugin enables precise monitoring by checking the percentage of hosts in a DOWN state within a hostgroup.
+This Nagios plugin provides precise monitoring by checking the percentage of hosts in a DOWN state within a hostgroup.
 
-This plugin is very useful when working with a host group containing many devices. If notifications are temporarily disabled to avoid spam caused by frequent status changes (e.g., when a client turns off their devices at night), the plugin allows you to receive a notification in case of a mass offline devices. For instance, in the event of a central failure causing a large number of devices to go offline, you will be alerted when too many of them transition to offline mode. Personally, I have configured critical situations to forward notifications directly to Telegram.
+It is especially useful when managing host groups with many devices. For instance, if notifications are temporarily disabled to prevent spam from frequent status changes (e.g., when a client powers down their devices at night), the plugin ensures you still receive alerts in case of a significant issue. In the event of a central failure causing a large number of devices to go offline, it will notify you when the number of offline devices exceeds a specified threshold. Personally, I have configured it to forward critical notifications directly to Telegram.
 
-The plugin is easy to integrate into an existing Nagios Core setup.
+The plugin is straightforward to integrate into an existing Nagios Core setup.
 
 ---
 
