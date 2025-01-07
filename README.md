@@ -86,7 +86,7 @@ define command {
     command_line    /path/to/check_offline_hosts $ARG1$ $ARG2$ $ARG3$ nagiosadmin:password http://127.0.0.1/nagios
 }
 ```
-### Create a "Virtual Host" for Each Hostgroup:
+### Example of "Virtual Host" for Each Hostgroup:
 
 ```cfg
 define host {
@@ -131,6 +131,24 @@ define hostgroup{
         members                         client1, client2 ... clientN
         }
 ```
+
+### Example of service configuration:
+
+```cfg
+define service {
+    use                     generic-service
+    host_name               myhost
+    service_description     Hostgroup Status Check
+    check_command           check_hostgroup_status!myhostgroup!20!30
+    max_check_attempts      3
+    check_interval          5
+    retry_interval          1
+    notification_period     24x7
+    notification_options    w,c,r
+    contact_groups          admins
+}
+```
+
 
 ### Notice
 In Nagios, host checks are limited to three default statuses:
