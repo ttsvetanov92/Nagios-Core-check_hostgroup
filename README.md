@@ -138,6 +138,7 @@ In Nagios, host checks are limited to three default statuses:
 - UP (the host is reachable),
 - DOWN (the host is unreachable),
 - UNREACHABLE (the host cannot be reached due to a network issue).
+
 Unlike service checks, which can return OK, WARNING, CRITICAL, and UNKNOWN, host checks do not support the WARNING status by default.
 
 Keep in mind that if you configure a command as a host check, any state intended to represent WARNING will actually be reported as OK.
