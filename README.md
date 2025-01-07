@@ -139,7 +139,7 @@ define service {
     use                     generic-service
     host_name               myhost
     service_description     Hostgroup Status Check
-    check_command           check_hostgroup_status!myhostgroup!20!30
+    check_command           check_hostgroup_status!myhostgroup 20 30
     max_check_attempts      3
     check_interval          5
     retry_interval          1
