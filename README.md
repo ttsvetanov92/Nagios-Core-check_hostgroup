@@ -68,7 +68,7 @@ The plugin retrieves hostgroup information using Nagios’ statusjson.cgi API an
 
 ## Nagios Integration
 
-### Installatiton
+### Installation
 Download the shell scrypt and add it to libexec nagios folder
 
 ```bash
