@@ -13,10 +13,9 @@ The plugin is straightforward to integrate into an existing Nagios Core setup.
 ## Key Features
 
 1. **Percent-Based Thresholds:** Set Warning and Critical thresholds as percentages.  
-2. **Custom Status Messages:** Outputs user-friendly messages like OK and BAD for better readability.  
-3. **Basic Authentication Support:** Works with secured Nagios APIs.  
-4. **JSON Parsing:** Utilizes `jq` for efficient JSON data extraction from `statusjson.cgi`.  
-5. **Flexible Parameters:** Accepts hostgroup, thresholds, authentication, and base URL as arguments.
+2. **Basic Authentication Support:** Works with secured Nagios APIs.  
+3. **JSON Parsing:** Utilizes `jq` for efficient JSON data extraction from `statusjson.cgi`.  
+4. **Flexible Parameters:** Accepts hostgroup, thresholds, authentication, and base URL as arguments.
 
 ---
 
@@ -32,9 +31,6 @@ sudo apt-get update
 sudo apt-get install -y curl jq
 ```
 
-```bash
-./check_offline_hosts <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
-```
 ## Example Usage
 
 ```bash
