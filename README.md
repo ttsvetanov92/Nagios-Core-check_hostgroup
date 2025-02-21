@@ -79,7 +79,7 @@ sudo mv check_hostgroup /usr/local/nagios/libexec
 ```cfg
 define command {
     command_name    check_hostgroup
-    command_line    /path/to/check_offline_hosts $ARG1$ $ARG2$ $ARG3$ nagiosadmin:password http://127.0.0.1/nagios
+    command_line    /path/to/check_hostgroup $ARG1$ $ARG2$ $ARG3$ nagiosadmin:password http://127.0.0.1/nagios
 }
 ```
 ### Example of "Virtual Host" for Each Hostgroup:
