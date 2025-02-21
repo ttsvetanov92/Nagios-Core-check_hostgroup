@@ -34,11 +34,11 @@ sudo apt-get install -y curl jq
 ## Example Usage
 
 ```bash
-./check_offline_hosts <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
+./check_hostgroup <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
 ```
 
 ```bash
-./check_offline_hosts MyHostGroup 20 30 nagiosadmin:password "http://127.0.0.1/nagios"
+./check_hostgroup MyHostGroup 20 30 nagiosadmin:password "http://127.0.0.1/nagios"
 ```
 ## Result
 
