@@ -65,7 +65,7 @@ The plugin retrieves hostgroup information using Nagios’ statusjson.cgi API an
 - Returns a result formatted for Nagios (OK, WARNING, CRITICAL, UNKNOWN).
 
 ## Nagios Integration
-In order to integrate check_hostgroup into Nagios, there are two main approaches:
+In order to integrate `check_hostgroup` into Nagios, there are **two** main approaches:
 
 **1.Virtual Host Method (Host Check)** – This does not replace the existing hostgroup but allows monitoring the entire hostgroup as a single unit, making it easier to configure alerts and track status changes at the host level.
 
