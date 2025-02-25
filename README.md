@@ -67,10 +67,11 @@ The plugin retrieves hostgroup information using Nagios’ statusjson.cgi API an
 ## Nagios Integration
 In order to integrate check_hostgroup into Nagios, there are two main approaches:
 
-1.**Virtual Host Method (Host Check)** – This does not replace the existing hostgroup but allows monitoring the entire hostgroup as a single unit, making it easier to configure alerts and track status changes at the host level.
-2.**Service Check Method** – Instead of defining a virtual host, you can configure check_hostgroup as a service check attached to an existing host. This allows for more flexible alerting and monitoring at the service level, rather than treating the group as a single host.
+**1.Virtual Host Method (Host Check)** – This does not replace the existing hostgroup but allows monitoring the entire hostgroup as a single unit, making it easier to configure alerts and track status changes at the host level.
 
-However, if you only need to run the script manually, no configuration is required – check_hostgroup reads data directly from the API and calculates the result without any additional setup.
+**2.Service Check Method** – Instead of defining a virtual host, you can configure check_hostgroup as a service check attached to an existing host. This allows for more flexible alerting and monitoring at the service level, rather than treating the group as a single host.
+
+However, if you only need to run the script manually, **no configuration is required** – `check_hostgroup` reads data directly from the API and calculates the result without any additional setup.
 
 ### Installation
 Download the shell scrypt and add it to libexec nagios folder
