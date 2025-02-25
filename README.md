@@ -87,7 +87,10 @@ define command {
     command_line    /path/to/check_hostgroup $ARG1$ $ARG2$ $ARG3$ nagiosadmin:password http://127.0.0.1/nagios
 }
 ```
-### Example of "Virtual Host" for Each Hostgroup:
+###  Option 1: Using a "Virtual Host" to Monitor the Hostgroup as a Single Unit
+This method treats the entire hostgroup as if it were a single host in Nagios. It allows host-based alerts and makes it easier to track the status of a group of devices.
+
+**Example of "Virtual Host" for Each Hostgroup:**
 
 ```cfg
 define host {
@@ -133,7 +136,10 @@ define hostgroup{
         }
 ```
 
-### Example of service configuration:
+### Option 2: Configuring check_hostgroup as a Service Check
+This method runs `check_hostgroup` as a regular service check for a specific host. It allows more flexible alerts but does not simulate a host failure when a group goes down.
+
+**Example of service configuration:**
 
 ```cfg
 define service {
