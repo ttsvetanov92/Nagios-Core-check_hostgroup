@@ -33,6 +33,8 @@ sudo apt-get install -y curl jq
 
 ## Example Usage
 
+`check_hostgroup` can be executed directly from the command line without any Nagios configuration. It fetches data from the Nagios API and calculates the status dynamically. Configuration in Nagios is only required for automated monitoring, notifications, and integration into the UI.
+
 ```bash
 ./check_hostgroup <HOSTGROUP_NAME> <WARNING_%> <CRITICAL_%> [:] [<NAGIOS_URL>]
 ```
@@ -63,6 +65,9 @@ The plugin retrieves hostgroup information using Nagios’ statusjson.cgi API an
 - Returns a result formatted for Nagios (OK, WARNING, CRITICAL, UNKNOWN).
 
 ## Nagios Integration
+In order to integrate `check_hostgroup` into Nagios as a host check, we use a virtual host.
+This does not replace the existing hostgroup but allows monitoring the entire hostgroup as a single unit, making it easier to configure alerts and track status changes.
+However, if you only need to run the script manually, no configuration is required.
 
 ### Installation
 Download the shell scrypt and add it to libexec nagios folder
@@ -135,7 +140,7 @@ define service {
     use                     generic-service
     host_name               myhost
     service_description     Hostgroup Status Check
-    check_command           check_hostgroup_status!myhostgroup 20 30
+    check_command           check_hostgroup!myhostgroup 20 30
     max_check_attempts      3
     check_interval          5
     retry_interval          1
