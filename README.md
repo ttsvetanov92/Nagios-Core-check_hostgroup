@@ -171,3 +171,32 @@ In Nagios, host checks are limited to three default statuses:
 Unlike service checks, which can return OK, WARNING, CRITICAL, and UNKNOWN, host checks do not support the WARNING status by default.
 
 Keep in mind that if you configure a command as a host check, any state intended to represent WARNING will actually be reported as OK, but you will still receive a notification about the status change.
+
+### API Permissions Warning
+Because `check_hostgroup` retrieves hostgroup data using the Nagios Status JSON API (statusjson.cgi), if the script returns:
+
+`UNKNOWN: Hostgroup '<HOSTGROUP>' does not exist or contains no hosts.`
+but the hostgroup is correctly configured in Nagios, the issue is likely _related to API access permissions._
+
+Nagios controls API access based on user privileges. If the API request is made with a user that lacks sufficient permissions, Nagios may return an empty hostlist, even if the hostgroup exists.
+
+**Recommended User: Use nagiosadmin**
+To avoid API permission issues, it is strongly recommended to use **nagiosadmin** for `check_hostgroup` execution. Using a user with limited access can result in incorrect or missing data.
+
+To check if this is the issue, try running:
+
+`/usr/local/nagios/libexec/check_hostgroup linux-servers 20 30 nagiosadmin:password`
+If this works, but fails with another user (e.g., myuser), it means the user lacks access to host data via the API.
+
+**How to Fix It**
+If you need to use a different user, ensure that it has the necessary permissions in **cgi.cfg**:
+
+```authorized_for_system_information=nagiosadmin,myuser
+authorized_for_configuration_information=nagiosadmin,myuser
+authorized_for_all_hosts=nagiosadmin,myuser
+authorized_for_all_host_commands=nagiosadmin,myuser
+authorized_for_read_only=nagiosadmin,myuser
+```
+Then restart Nagios:
+
+`sudo systemctl restart nagios`
